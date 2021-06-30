@@ -14,11 +14,8 @@ jobs:
     - name: Deploy to Heroku
       uses: AkhileshNS/heroku-deploy@v3.12.12
       with:
-         heroku_api_key: 0fb1eb43-004f-446b-aad1-b583a45daa44
-    # Email that you use with heroku
-         heroku_email: abdallah.benyouness@gmail.com
-    # The appname to use for deploying/updating
-         heroku_app_name: imakerbot
-    # An optional buildpack to use when creating the heroku application
+        heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+        heroku_email: ${{secrets.HEROKU_EMAIL}}
+        heroku_app_name: ${{secrets.HEROKU_APP}}
 
 
