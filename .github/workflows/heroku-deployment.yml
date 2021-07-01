@@ -11,13 +11,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-        
-    - name: Start containers
-      run: docker-compose -f "Eureka-Server/docker-compose.yml" up 
-
     - name: Check Unit Test
       run: mvn test
-
     - name: Deploy to Heroku
       uses: AkhileshNS/heroku-deploy@v3.12.12
       with:
