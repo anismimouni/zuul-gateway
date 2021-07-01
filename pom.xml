@@ -32,7 +32,7 @@
   </parent>
   <modules>
 
-    <module>eureka-server</module>
+    <module>Eureka-Server/pom.xml</module>
   
   </modules>
 </project>
