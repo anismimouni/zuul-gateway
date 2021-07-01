@@ -4,7 +4,7 @@
   <groupId>fr.gdc.imaker</groupId>
   <artifactId>gdc-root</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
   <name>Imaker</name>
     	
   <properties>
