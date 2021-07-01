@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v2
         
     - name: Start containers
-      run: docker-compose -f "docker-compose.yml" up -d --build
+      run: docker-compose -f "Eureka-Server/docker-compose.yml" up -d --build
 
     - name: Check Unit Test
       run: mvn test
