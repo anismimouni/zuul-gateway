@@ -11,6 +11,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+        
+    - name: Start containers
+      run: docker-compose -f "docker-compose.yml" up -d --build
+
+    - name: Check Unit Test
+      run: mvn test
+
     - name: Deploy to Heroku
       uses: AkhileshNS/heroku-deploy@v3.12.12
       with:
