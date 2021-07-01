@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>fr.gdc.imaker</groupId>
-    <artifactId>eureka</artifactId>
+    <artifactId>eureka-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>eureka-server</name>
+    <name>Eureka-Server</name>
     <description>dicovery service with eureka netflix</description>
     <properties>
         <java.version>1.8</java.version>
