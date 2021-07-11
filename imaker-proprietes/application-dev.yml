@@ -5,10 +5,6 @@ spring:
     config:
       server:
         git:
-          uri: ssh://git@github.com/gdcollectdata/iMakerBot-BackendEnd.git
-          default-label: main
-          passphrase: 'ahmed'
-          clone-on-start: true
-          search-paths: imaker-proprietes
+          uri: ${HOME}/Desktop/configRepo
       enabled: true
       override-system-properties: true
