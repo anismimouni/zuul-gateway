@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  config-server:
+    container_name: config-server
+    build:
+      context: .
+      args:
+        SSH_KEY: ${SSH_KEY}
+        HOSTS: ${HOSTS}
+        PROFILES: ${PROFILES}
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+      - "8889:8889"
+      - "8890:8890"
+      - "8891:8891"
+      - "8892:8892"
+
+
+
