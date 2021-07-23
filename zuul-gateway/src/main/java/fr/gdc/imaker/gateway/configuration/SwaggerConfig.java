@@ -30,7 +30,7 @@ public class SwaggerConfig {
                 " Documentation User registration and login within the gateway",
                 "1.0",
                 "API Terms of Service URL",
-                new Contact("ARBI Ahmed", "", "arbi.ahmed17@outlook.fr"),
+                new Contact("GDCollectData", "", "contact@gdcollect-data.fr"),
                 "Apache License Version 2.0 ",
                 "https://www.apache.org/licenses/LICENSE-2.0",
                 Collections.emptyList()
