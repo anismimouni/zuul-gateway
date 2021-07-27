@@ -2,9 +2,7 @@ package fr.gdc.imaker.gateway.Endpoint;
 
 import fr.gdc.imaker.gateway.Dto.UserDto;
 import fr.gdc.imaker.gateway.Exceptions.SuccessDetails;
-import fr.gdc.imaker.gateway.Model.Authentification;
-import fr.gdc.imaker.gateway.Model.TokenVerification;
-import fr.gdc.imaker.gateway.Model.Users;
+import fr.gdc.imaker.gateway.Model.*;
 import fr.gdc.imaker.gateway.Service.*;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -42,6 +40,8 @@ public class HomeController {
     private TokenServiceImpl tokenService;
     @Autowired
     private MailingService mailService;
+    @Autowired
+    private TokenResetPasswordService tokenResetPasswordService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -87,6 +87,43 @@ public class HomeController {
         HttpHeaders response= new HttpHeaders();
         response.set("Authorazation","Bearer "+webToken );
         return ResponseEntity.ok().headers(response).body(successMessage);
+    }
+
+    @PostMapping("/ResetPassword")
+    public ResponseEntity<Object> passwordReset(@RequestBody ResetPassword resetPassword){
+        Users user = userService.findUserByEmail(resetPassword.getEmail());
+        if (user != null){
+            TokenResetPassword tokenResetPassword =tokenResetPasswordService.createToken(user);
+            mailService.sendResetPasswordEmail(user,tokenResetPassword);
+            SuccessDetails successMessage = new SuccessDetails(LocalDateTime.now(), "Your Account exist and you can change your password  ", null);
+
+        }
+        SuccessDetails successMessage = new SuccessDetails(LocalDateTime.now(), "our Account exist and you can change your password ", null);
+
+        return new ResponseEntity<>(successMessage, HttpStatus.OK);
+    }
+    @ApiOperation(value = " Reset password for user  ", response = SuccessDetails.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Reset password  confirmation successfully"),
+            @ApiResponse(code = 404, message = "Token confirmation Not  Found or Expired ")
+    })
+    @GetMapping("/ResetPasswordValidation")
+    public ResponseEntity<Object> resetPasswordConfirmation(@RequestParam("token") String token) {
+        tokenResetPasswordService.findTokenByValue(token);
+        SuccessDetails successMessage = new SuccessDetails(LocalDateTime.now(), "Your Reset Password  has been confirmed ", null);
+
+        return new ResponseEntity<>(successMessage, HttpStatus.OK);
+    }
+
+    @PostMapping("/newPassword")
+    public void newPassword (@PathVariable String token , @RequestBody newPasswordEntity newPassword ){
+            TokenResetPassword tokenResetPassword = tokenResetPasswordService.getToken(token);
+            if(tokenResetPassword != null){
+                if(newPassword.getNewPassword().equals(newPassword.getRepeatNewPassword())){
+                    tokenResetPasswordService.updatePassword(token,newPassword.getNewPassword());
+                }
+            }
+
     }
 
 }

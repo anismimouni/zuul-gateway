@@ -1,6 +1,9 @@
 package fr.gdc.imaker.gateway.Service;
 import fr.gdc.imaker.gateway.Dto.UserDto;
+import fr.gdc.imaker.gateway.Model.TokenResetPassword;
 import fr.gdc.imaker.gateway.Model.Users;
+import fr.gdc.imaker.gateway.Repository.TokenRepo;
+import fr.gdc.imaker.gateway.Repository.TokenResetRepo;
 import fr.gdc.imaker.gateway.Repository.UserRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,11 @@ import java.util.NoSuchElementException;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepository;
+    @Autowired
+    private TokenResetRepo tokenResetRepo;
+
+    private TokenResetPasswordService tokenResetPasswordService;
+    private MailingService mailingService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
@@ -40,6 +48,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public Users saveUser(Users user) {
         return userRepository.save(user);
+    }
+
+
+    public Users getUser(String tokenValue){
+        TokenResetPassword token= tokenResetRepo.findByTokenValue(tokenValue);
+        Users user = token.getUser();
+        return user;
     }
 }
 
