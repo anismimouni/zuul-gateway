@@ -115,7 +115,7 @@ public class HomeController {
         return new ResponseEntity<>(successMessage, HttpStatus.OK);
     }
 
-    @PostMapping("/newPassword")
+    @PostMapping("/newPassword/{token}")
     public void newPassword (@PathVariable String token , @RequestBody newPasswordEntity newPassword ){
             TokenResetPassword tokenResetPassword = tokenResetPasswordService.getToken(token);
             if(tokenResetPassword != null){
