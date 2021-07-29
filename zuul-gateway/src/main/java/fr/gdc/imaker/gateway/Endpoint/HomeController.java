@@ -91,16 +91,16 @@ public class HomeController {
 
     @PostMapping("/ResetPassword")
     public ResponseEntity<Object> passwordReset(@RequestBody ResetPassword resetPassword){
+        SuccessDetails successMessage = null;
         Users user = userService.findUserByEmail(resetPassword.getEmail());
         if (user != null){
             TokenResetPassword tokenResetPassword =tokenResetPasswordService.createToken(user);
             mailService.sendResetPasswordEmail(user,tokenResetPassword);
-            SuccessDetails successMessage = new SuccessDetails(LocalDateTime.now(), "Your Account exist and you can change your password  ", null);
+            successMessage = new SuccessDetails(LocalDateTime.now(), "Your Account exist and you can change your password  ", null);
 
         }
-        SuccessDetails successMessage = new SuccessDetails(LocalDateTime.now(), "our Account exist and you can change your password ", null);
 
-        return new ResponseEntity<>(successMessage, HttpStatus.OK);
+        return ResponseEntity.ok().body(successMessage);
     }
     @ApiOperation(value = " Reset password for user  ", response = SuccessDetails.class)
     @ApiResponses(value = {
@@ -116,13 +116,16 @@ public class HomeController {
     }
 
     @PostMapping("/newPassword/{token}")
-    public void newPassword (@PathVariable String token , @RequestBody newPasswordEntity newPassword ){
+    public ResponseEntity<SuccessDetails> newPassword (@PathVariable String token , @RequestBody newPasswordEntity newPassword ){
+            SuccessDetails successMessage = null;
             TokenResetPassword tokenResetPassword = tokenResetPasswordService.getToken(token);
             if(tokenResetPassword != null){
                 if(newPassword.getNewPassword().equals(newPassword.getRepeatNewPassword())){
                     tokenResetPasswordService.updatePassword(token,newPassword.getNewPassword());
+                    successMessage = new SuccessDetails(LocalDateTime.now(), "Your password has been changed successfully  ", null);
                 }
             }
+        return ResponseEntity.ok().body(successMessage);
 
     }
 
