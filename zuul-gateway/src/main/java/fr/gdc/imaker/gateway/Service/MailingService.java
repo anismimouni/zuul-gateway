@@ -49,9 +49,8 @@ public class MailingService {
         mailMessage.setSubject("Reset Your Password ");
         mailMessage.setFrom("urpharma.store@gmail.Com");
         mailMessage.setText(" Hello  "+user.getFullName().toUpperCase(Locale.ROOT) + ",\r \n" +
-                " We appreciate you  choosing our MarketPlace .\r\n" +
                 " You have requested to reset your password : \r\n " + "http://localhost:" + serverProperties.getPort() +
-                "/api/home/ResetPassword?token=" + tokenResetPassword.getTokenValue() +
+                "/api/home/ResetPasswordValidation?token=" + tokenResetPassword.getTokenValue() +
                 " \r \n" +
                 "Ignore this email if you do remember your password, or you have not made the request ") ;
         return mailMessage;
