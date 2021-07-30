@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 
 @RestController
@@ -96,9 +97,9 @@ public class HomeController {
         if (user != null){
             TokenResetPassword tokenResetPassword =tokenResetPasswordService.createToken(user);
             mailService.sendResetPasswordEmail(user,tokenResetPassword);
-            successMessage = new SuccessDetails(LocalDateTime.now(), "Your Account exist and you can change your password  ", null);
+            successMessage = new SuccessDetails(LocalDateTime.now(), "Your Account exist and you can change your password  ", tokenResetPassword.getTokenValue());
 
-        }
+        }else throw new NoSuchElementException("Your mail doesn't exist !");
 
         return ResponseEntity.ok().body(successMessage);
     }
@@ -110,7 +111,7 @@ public class HomeController {
     @GetMapping("/ResetPasswordValidation")
     public ResponseEntity<Object> resetPasswordConfirmation(@RequestParam("token") String token) {
         tokenResetPasswordService.findTokenByValue(token);
-        SuccessDetails successMessage = new SuccessDetails(LocalDateTime.now(), "Your Reset Password  has been confirmed ", null);
+        SuccessDetails successMessage = new SuccessDetails(LocalDateTime.now(), "Your Reset Password  has been confirmed ", token);
 
         return new ResponseEntity<>(successMessage, HttpStatus.OK);
     }
